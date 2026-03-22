@@ -9,7 +9,7 @@
             StrokeThickness="0"
             StrokeShape="RoundRectangle 20">
 
-        <ScrollView WidthRequest="420">
+        <ScrollView WidthRequest="450">
             <VerticalStackLayout WidthRequest="420"
                                  Padding="24"
                                  Spacing="18">
@@ -38,31 +38,39 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <HorizontalStackLayout Spacing="12">
-                    <Border BackgroundColor="#F0FDF4"
+                <HorizontalStackLayout Spacing="10" WidthRequest="430">
+                    <Border BackgroundColor="#DCFCE7"
                             Stroke="#BBF7D0"
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 14"
-                            Padding="14,10"
-                            HorizontalOptions="FillAndExpand">
-
+                            Padding="12,8">
                         <Label x:Name="TaskPointsLabel"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               TextColor="#15803D" />
+                               TextColor="#166534"
+                               FontSize="16"
+                               FontAttributes="Bold" />
                     </Border>
 
-                    <Border BackgroundColor="#F9FAFB"
+                    <Border BackgroundColor="#F3F4F6"
                             Stroke="#E5E7EB"
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 14"
-                            Padding="14,10"
-                            HorizontalOptions="FillAndExpand">
-
+                            Padding="12,8">
                         <Label x:Name="TaskAssignedLabel"
-                               FontSize="14"
+                               FontSize="16"
+                               FontAttributes="Bold"
                                TextColor="#374151"
-                               LineBreakMode="WordWrap" />
+                               LineBreakMode="TailTruncation" />
+                    </Border>
+
+                    <Border BackgroundColor="#E0E7FF"
+                            Stroke="#C7D2FE"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 14"
+                            Padding="12,8">
+                        <Label x:Name="TaskTypeLabel"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#3730A3" />
                     </Border>
                 </HorizontalStackLayout>
 

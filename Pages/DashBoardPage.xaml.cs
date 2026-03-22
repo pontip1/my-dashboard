@@ -2,10 +2,11 @@ using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Controls.Shapes;
 using MyDashboard.Helpers;
 using MyDashboard.Models.Entities;
+using MyDashboard.Pages.Popups;
 using MyDashboard.Services.Backend;
 using MyDashboard.Services.Rooms;
+using MyDashboard.Services.Shop;
 using MyDashboard.Services.Tasks;
-using MyDashboard.Pages.Popups;
 
 namespace MyDashboard.Pages;
 
@@ -13,13 +14,138 @@ public partial class DashBoardPage : ContentPage
 {
     private readonly TasksService _tasksService = new();
     private readonly RoomsService _roomsService = new();
+    private readonly ShopService _shopService = new();
     private Room? _selectedRoom;
     private Button? _selectedRoomButton;
     private string? _initializedUserId;
     private bool _isRoomSwitching;
+    private bool _isPremiumThemeEnabled = false;
+    private bool _hasPremiumTheme = false;
     public DashBoardPage()
     {
         InitializeComponent();
+    }
+
+    private async void ThemeToggle_Clicked(object sender, EventArgs e)
+    {
+        if (!_hasPremiumTheme)
+        {
+            await DisplayAlert("Locked", "You need to buy Premium Theme in store", "OK");
+            return;
+        }
+
+        _isPremiumThemeEnabled = !_isPremiumThemeEnabled;
+        ApplyPremiumTheme(_isPremiumThemeEnabled);
+    }
+
+    private async Task LoadPurchasedDecorations()
+    {
+        try
+        {
+            CoffeeRewardImage.IsVisible = await _shopService.HasPurchasedItem("Coffee cup");
+            BadgeRewardImage.IsVisible = await _shopService.HasPurchasedItem("Custom room badge");
+
+            _hasPremiumTheme = await _shopService.HasPurchasedItem("Premium theme");
+
+            if (!_hasPremiumTheme)
+                _isPremiumThemeEnabled = false;
+
+            ApplyPremiumTheme(_hasPremiumTheme && _isPremiumThemeEnabled);
+        }
+        catch
+        {
+            CoffeeRewardImage.IsVisible = false;
+            BadgeRewardImage.IsVisible = false;
+            _hasPremiumTheme = false;
+            _isPremiumThemeEnabled = false;
+            ApplyPremiumTheme(false);
+        }
+    }
+
+    private void ApplyPremiumTheme(bool enabled)
+    {
+        if (enabled)
+        {
+            BackgroundColor = Color.FromArgb("#0B1220");
+
+            TopBar.BackgroundColor = Color.FromArgb("#111827");
+            LeftPanel.BackgroundColor = Color.FromArgb("#111827");
+            MainTopPanel.BackgroundColor = Color.FromArgb("#111827");
+            MembersPanel.BackgroundColor = Color.FromArgb("#111827");
+            MembersPanel.Stroke = Color.FromArgb("#334155");
+
+            ToDoColumn.BackgroundColor = Color.FromArgb("#1E293B");
+            ToDoColumn.Stroke = Color.FromArgb("#334155");
+
+            InProgressColumn.BackgroundColor = Color.FromArgb("#1E293B");
+            InProgressColumn.Stroke = Color.FromArgb("#334155");
+
+            InReviewColumn.BackgroundColor = Color.FromArgb("#1E293B");
+            InReviewColumn.Stroke = Color.FromArgb("#334155");
+
+            DoneColumn.BackgroundColor = Color.FromArgb("#1E293B");
+            DoneColumn.Stroke = Color.FromArgb("#334155");
+
+            JoinRoomLabel.TextColor = Color.FromArgb("#CBD5E1");
+            YourRoomsLabel.TextColor = Color.FromArgb("#F8FAFC");
+            RoomKeyTitleLabel.TextColor = Color.FromArgb("#94A3B8");
+            SelectedRoomKeyLabel.TextColor = Color.FromArgb("#F8FAFC");
+            MembersTitleLabel.TextColor = Color.FromArgb("#F8FAFC");
+
+            ToDoTitleLabel.TextColor = Color.FromArgb("#F8FAFC");
+            InProgressTitleLabel.TextColor = Color.FromArgb("#F8FAFC");
+            InReviewTitleLabel.TextColor = Color.FromArgb("#F8FAFC");
+            DoneTitleLabel.TextColor = Color.FromArgb("#F8FAFC");
+
+            RoomKeyEntry.BackgroundColor = Color.FromArgb("#1F2937");
+            RoomKeyEntry.TextColor = Color.FromArgb("#F8FAFC");
+            RoomKeyEntry.PlaceholderColor = Color.FromArgb("#94A3B8");
+        }
+        else
+        {
+            BackgroundColor = Color.FromArgb("#F4F7FB");
+
+            TopBar.BackgroundColor = Colors.White;
+            LeftPanel.BackgroundColor = Colors.White;
+            MainTopPanel.BackgroundColor = Colors.White;
+            MembersPanel.BackgroundColor = Colors.White;
+            MembersPanel.Stroke = Color.FromArgb("#E5E7EB");
+
+            ToDoColumn.BackgroundColor = Colors.White;
+            ToDoColumn.Stroke = Color.FromArgb("#E5E7EB");
+
+            InProgressColumn.BackgroundColor = Colors.White;
+            InProgressColumn.Stroke = Color.FromArgb("#E5E7EB");
+
+            InReviewColumn.BackgroundColor = Colors.White;
+            InReviewColumn.Stroke = Color.FromArgb("#E5E7EB");
+
+            DoneColumn.BackgroundColor = Colors.White;
+            DoneColumn.Stroke = Color.FromArgb("#E5E7EB");
+
+            JoinRoomLabel.TextColor = Color.FromArgb("#374151");
+            YourRoomsLabel.TextColor = Color.FromArgb("#111827");
+            RoomKeyTitleLabel.TextColor = Color.FromArgb("#4B5563");
+            SelectedRoomKeyLabel.TextColor = Color.FromArgb("#111827");
+            MembersTitleLabel.TextColor = Color.FromArgb("#111827");
+
+            ToDoTitleLabel.TextColor = Color.FromArgb("#111827");
+            InProgressTitleLabel.TextColor = Color.FromArgb("#111827");
+            InReviewTitleLabel.TextColor = Color.FromArgb("#111827");
+            DoneTitleLabel.TextColor = Color.FromArgb("#111827");
+
+            RoomKeyEntry.BackgroundColor = Color.FromArgb("#F9FAFB");
+            RoomKeyEntry.TextColor = Color.FromArgb("#111827");
+            RoomKeyEntry.PlaceholderColor = Color.FromArgb("#9CA3AF");
+        }
+    }
+
+    private async void Store_Clicked(object sender, EventArgs e)
+    {
+        await this.ShowPopupAsync(new StorePopup(async () =>
+        {
+            await LoadPurchasedDecorations();
+        }));
     }
 
     private async void Leaderboard_Clicked(object sender, EventArgs e)
@@ -52,6 +178,7 @@ public partial class DashBoardPage : ContentPage
         RoomsList.Children.Clear();
         RoomKeyEntry.Text = string.Empty;
 
+        await LoadPurchasedDecorations();
         await LoadMyRooms();
 
         if (_selectedRoom == null)
@@ -494,6 +621,10 @@ public partial class DashBoardPage : ContentPage
 
         var members = await _roomsService.GetMembersByRoomId(room.Id);
 
+        members = members
+        .OrderByDescending(m => m.UserId == room.OwnerId)
+        .ToList();
+
         var currentUser = SupabaseService.Client.Auth.CurrentUser;
         Guid? currentUserId = currentUser != null ? Guid.Parse(currentUser.Id) : null;
 
@@ -510,10 +641,11 @@ public partial class DashBoardPage : ContentPage
             var row = new Grid
             {
                 ColumnDefinitions =
-            {
-                new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(GridLength.Auto)
-            },
+    {
+        new ColumnDefinition(GridLength.Auto),
+        new ColumnDefinition(GridLength.Star),
+        new ColumnDefinition(GridLength.Auto)
+    },
                 ColumnSpacing = 10,
                 Padding = new Thickness(12),
                 BackgroundColor = isOwnerMember
@@ -537,6 +669,37 @@ public partial class DashBoardPage : ContentPage
                 CornerRadius = new CornerRadius(14)
             };
 
+            var avatarImage = new Image
+            {
+                WidthRequest = 36,
+                HeightRequest = 36,
+                Aspect = Aspect.AspectFill,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            if (!string.IsNullOrWhiteSpace(member.AvatarUrl))
+                avatarImage.Source = ImageSource.FromUri(new Uri(member.AvatarUrl));
+            else
+                avatarImage.Source = "unknown_avatar.jpg";
+
+            var avatarBorder = new Border
+            {
+                Stroke = Color.FromArgb("#E5E7EB"),
+                StrokeThickness = 1,
+                Padding = 0,
+                BackgroundColor = Color.FromArgb("#F9FAFB"),
+                Content = avatarImage
+            };
+
+            avatarBorder.StrokeShape = new RoundRectangle
+            {
+                CornerRadius = new CornerRadius(18)
+            };
+
+            row.Add(avatarBorder);
+            Grid.SetColumn(avatarBorder, 0);
+
             var labelButton = new Button
             {
                 VerticalOptions = LayoutOptions.Center,
@@ -559,7 +722,7 @@ public partial class DashBoardPage : ContentPage
             };
 
             row.Add(labelButton);
-            Grid.SetColumn(labelButton, 0);
+            Grid.SetColumn(labelButton, 1);
 
             if (isCurrentUserOwner && isNotSelf)
             {
@@ -599,7 +762,7 @@ public partial class DashBoardPage : ContentPage
                 };
 
                 row.Add(deleteButton);
-                Grid.SetColumn(deleteButton, 1);
+                Grid.SetColumn(deleteButton, 2);
             }
 
             MemberList.Children.Add(border);

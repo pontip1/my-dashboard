@@ -23,6 +23,26 @@ public partial class TaskDetailsPopup : Popup
         TaskNameLabel.Text = taskItem.Name;
         TaskDescriptionLabel.Text = taskItem.Description;
         TaskPointsLabel.Text = $"Points: {taskItem.Points}";
+        TaskTypeLabel.Text = $"Type: {taskItem.TaskType}";
+
+        switch (taskItem.TaskType?.ToLower())
+        {
+            case "bug":
+                TaskTypeLabel.TextColor = Color.FromArgb("#B91C1C");
+                break;
+
+            case "frontend":
+                TaskTypeLabel.TextColor = Color.FromArgb("#7C3AED");
+                break;
+
+            case "backend":
+                TaskTypeLabel.TextColor = Color.FromArgb("#1D4ED8");
+                break;
+
+            default:
+                TaskTypeLabel.TextColor = Color.FromArgb("#3730A3");
+                break;
+        }
 
         LoadAssignedInfoOnStart();
         UpdateButtonsVisibility();

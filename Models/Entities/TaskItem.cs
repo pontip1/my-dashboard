@@ -35,4 +35,7 @@ public class TaskItem : BaseModel
 
     [Column("review_comment")]
     public string? ReviewComment { get; set; }
+
+    [Column("task_type")]
+    public string TaskType { get; set; }
 }

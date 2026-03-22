@@ -8,43 +8,71 @@
           ColumnDefinitions="320,*">
 
         <!-- Top panel -->
-        <Border Grid.Row="0"
+        <Border x:Name="TopBar"
+                Grid.Row="0"
                 Grid.ColumnSpan="2"
                 BackgroundColor="White"
                 StrokeThickness="0"
                 Padding="16,12">
-            <HorizontalStackLayout Spacing="12">
-                <Button Text="Account"
-                        Clicked="Account_Clicked"
-                        HeightRequest="50"
-                        CornerRadius="14"
-                        FontSize="18"
-                        FontAttributes="Bold"
-                        BackgroundColor="#EEF2FF"
-                        TextColor="#3730A3"/>
+            <Grid ColumnDefinitions="*,Auto"
+                  ColumnSpacing="12">
 
-                <Button Text="Achievements"
-                        Clicked="Achievements_Clicked"
-                        HeightRequest="50"
-                        CornerRadius="14"
-                        FontSize="18"
-                        FontAttributes="Bold"
-                        BackgroundColor="#EEF2FF"
-                        TextColor="#3730A3"/>
+                <HorizontalStackLayout Grid.Column="0" Spacing="12">
+                    <Button Text="Account"
+                            Clicked="Account_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#EEF2FF"
+                            TextColor="#3730A3"/>
 
-                <Button Text="Leader Board"
-                        Clicked="Leaderboard_Clicked"
-                        HeightRequest="50"
-                        CornerRadius="14"
-                        FontSize="18"
-                        FontAttributes="Bold"
-                        BackgroundColor="#EEF2FF"
-                        TextColor="#3730A3"/>
-            </HorizontalStackLayout>
+                    <Button Text="Achievements"
+                            Clicked="Achievements_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#EEF2FF"
+                            TextColor="#3730A3"/>
+
+                    <Button Text="Leader Board"
+                            Clicked="Leaderboard_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#EEF2FF"
+                            TextColor="#3730A3"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Column="1" Spacing="10">
+
+                    <Button Text="Theme"
+                            Clicked="ThemeToggle_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#E5E7EB"
+                            TextColor="#111827"/>
+
+                    <Button Text="Store"
+                            Clicked="Store_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#EEF2FF"
+                            TextColor="#3730A3"/>
+
+                </HorizontalStackLayout>
+            </Grid>
         </Border>
 
         <!-- Left panel -->
-        <Border Grid.Row="1"
+        <Border x:Name="LeftPanel"
+                Grid.Row="1"
                 Grid.Column="0"
                 BackgroundColor="White"
                 StrokeThickness="0"
@@ -61,7 +89,8 @@
                         BackgroundColor="#4F46E5"
                         TextColor="White"/>
 
-                <Label Text="Join room by key"
+                <Label x:Name="JoinRoomLabel"
+                       Text="Join room by key"
                        FontSize="16"
                        FontAttributes="Bold"
                        TextColor="#374151"/>
@@ -87,7 +116,8 @@
                          Color="#E5E7EB"
                          Margin="0,8,0,4"/>
 
-                <Label Text="Your rooms"
+                <Label x:Name="YourRoomsLabel"
+                       Text="Your rooms"
                        FontSize="18"
                        FontAttributes="Bold"
                        TextColor="#111827"/>
@@ -110,7 +140,8 @@
               RowSpacing="16">
 
             <!-- Top panel in main content -->
-            <Border Grid.Row="0"
+            <Border x:Name="MainTopPanel"
+                    Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     BackgroundColor="White"
@@ -127,7 +158,8 @@
                             BackgroundColor="#4F46E5"
                             TextColor="White"/>
 
-                    <Label Text="Room key:"
+                    <Label x:Name="RoomKeyTitleLabel"
+                           Text="Room key:"
                            VerticalOptions="Center"
                            FontSize="18"
                            TextColor="#4B5563"/>
@@ -157,6 +189,20 @@
                             FontAttributes="Bold"
                             BackgroundColor="#FEE2E2"
                             TextColor="#B91C1C"/>
+
+                    <Image x:Name="CoffeeRewardImage"
+                           Source="coffee.jpg"
+                           WidthRequest="48"
+                           HeightRequest="48"
+                           IsVisible="False"
+                           VerticalOptions="Center"/>
+
+                    <Image x:Name="BadgeRewardImage"
+                           Source="badge.jpg"
+                           WidthRequest="48"
+                           HeightRequest="48"
+                           IsVisible="False"
+                           VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
 
@@ -167,7 +213,8 @@
                   ColumnSpacing="14">
 
                 <!-- To do -->
-                <Border Grid.Column="0"
+                <Border x:Name="ToDoColumn"
+                        Grid.Column="0"
                         BackgroundColor="White"
                         Stroke="#E5E7EB"
                         StrokeThickness="1"
@@ -177,7 +224,8 @@
                     </Border.StrokeShape>
 
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="To do"
+                        <Label x:Name="ToDoTitleLabel"
+                               Text="To do"
                                FontAttributes="Bold"
                                FontSize="20"
                                TextColor="#111827"/>
@@ -189,7 +237,8 @@
                 </Border>
 
                 <!-- In progress -->
-                <Border Grid.Column="1"
+                <Border x:Name="InProgressColumn"
+                        Grid.Column="1"
                         BackgroundColor="White"
                         Stroke="#E5E7EB"
                         StrokeThickness="1"
@@ -199,7 +248,8 @@
                     </Border.StrokeShape>
 
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="In progress"
+                        <Label x:Name="InProgressTitleLabel"
+                               Text="In progress"
                                FontAttributes="Bold"
                                FontSize="20"
                                TextColor="#111827"/>
@@ -211,7 +261,8 @@
                 </Border>
 
                 <!-- In review -->
-                <Border Grid.Column="2"
+                <Border x:Name="InReviewColumn"
+                        Grid.Column="2"
                         BackgroundColor="White"
                         Stroke="#E5E7EB"
                         StrokeThickness="1"
@@ -221,7 +272,8 @@
                     </Border.StrokeShape>
 
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="In review"
+                        <Label x:Name="InReviewTitleLabel"
+                               Text="In review"
                                FontAttributes="Bold"
                                FontSize="20"
                                TextColor="#111827"/>
@@ -233,7 +285,8 @@
                 </Border>
 
                 <!-- Done -->
-                <Border Grid.Column="3"
+                <Border x:Name="DoneColumn"
+                        Grid.Column="3"
                         BackgroundColor="White"
                         Stroke="#E5E7EB"
                         StrokeThickness="1"
@@ -243,7 +296,8 @@
                     </Border.StrokeShape>
 
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="Done"
+                        <Label x:Name="DoneTitleLabel"
+                               Text="Done"
                                FontAttributes="Bold"
                                FontSize="20"
                                TextColor="#111827"/>
@@ -257,7 +311,8 @@
             </Grid>
 
             <!-- Members panel -->
-            <Border Grid.Row="1"
+            <Border x:Name="MembersPanel"
+                    Grid.Row="1"
                     Grid.Column="1"
                     BackgroundColor="White"
                     Stroke="#E5E7EB"
@@ -268,7 +323,8 @@
                 </Border.StrokeShape>
 
                 <VerticalStackLayout Spacing="12">
-                    <Label Text="Members"
+                    <Label x:Name="MembersTitleLabel"
+                           Text="Members"
                            FontSize="24"
                            FontAttributes="Bold"
                            TextColor="#111827"/>

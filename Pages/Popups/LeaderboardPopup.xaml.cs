@@ -46,11 +46,12 @@ public partial class LeaderboardPopup : Popup
                 var rowGrid = new Grid
                 {
                     ColumnDefinitions =
-                    {
-                        new ColumnDefinition(new GridLength(50)),
-                        new ColumnDefinition(GridLength.Star),
-                        new ColumnDefinition(GridLength.Auto)
-                    },
+    {
+        new ColumnDefinition(new GridLength(50)),
+        new ColumnDefinition(GridLength.Auto),
+        new ColumnDefinition(GridLength.Star),
+        new ColumnDefinition(GridLength.Auto)
+    },
                     ColumnSpacing = 10,
                     Padding = new Thickness(12),
                     BackgroundColor = place <= 3
@@ -85,6 +86,36 @@ public partial class LeaderboardPopup : Popup
                 rowGrid.Add(placeLabel);
                 Grid.SetColumn(placeLabel, 0);
 
+                var avatarImage = new Image
+                {
+                    WidthRequest = 34,
+                    HeightRequest = 34,
+                    Aspect = Aspect.AspectFill,
+                    VerticalOptions = LayoutOptions.Center
+                };
+
+                if (!string.IsNullOrWhiteSpace(item.AvatarUrl))
+                    avatarImage.Source = ImageSource.FromUri(new Uri(item.AvatarUrl));
+                else
+                    avatarImage.Source = "unknown_avatar.jpg";
+
+                var avatarBorder = new Border
+                {
+                    Stroke = Color.FromArgb("#E5E7EB"),
+                    StrokeThickness = 1,
+                    Padding = 0,
+                    BackgroundColor = Color.FromArgb("#F9FAFB"),
+                    Content = avatarImage
+                };
+
+                avatarBorder.StrokeShape = new RoundRectangle
+                {
+                    CornerRadius = new CornerRadius(17)
+                };
+
+                rowGrid.Add(avatarBorder);
+                Grid.SetColumn(avatarBorder, 1);
+
                 var nameLabel = new Label
                 {
                     Text = displayName,
@@ -93,7 +124,7 @@ public partial class LeaderboardPopup : Popup
                     VerticalOptions = LayoutOptions.Center
                 };
                 rowGrid.Add(nameLabel);
-                Grid.SetColumn(nameLabel, 1);
+                Grid.SetColumn(nameLabel, 2);
 
                 var pointsLabel = new Label
                 {
@@ -103,10 +134,9 @@ public partial class LeaderboardPopup : Popup
                     VerticalOptions = LayoutOptions.Center
                 };
                 rowGrid.Add(pointsLabel);
-                Grid.SetColumn(pointsLabel, 2);
+                Grid.SetColumn(pointsLabel, 3);
 
                 LeaderboardList.Children.Add(rowBorder);
-
                 place++;
             }
         }

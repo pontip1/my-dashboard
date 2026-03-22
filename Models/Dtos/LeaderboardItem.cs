@@ -15,4 +15,7 @@ public class LeaderboardItem
 
     [JsonPropertyName("points")]
     public int Points { get; set; }
+
+    [JsonPropertyName("avatar_url")]
+    public string? AvatarUrl { get; set; }
 }

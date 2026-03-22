@@ -17,6 +17,7 @@ public partial class AddTaskPopup : Popup
     {
         string name = NameOfTask.Text;
         string description = Task.Text;
+        string taskType = TaskTypePicker.SelectedItem?.ToString() ?? "backend";
 
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -48,6 +49,7 @@ public partial class AddTaskPopup : Popup
             Name = name,
             Description = description,
             Points = points,
+            TaskType = taskType,
             Status = "todo"
         };
 

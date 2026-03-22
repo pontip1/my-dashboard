@@ -17,4 +17,10 @@ public class Profile : BaseModel
 
     [Column("points")]
     public int Points { get; set; }
+
+    [Column("shop_points")]
+    public int ShopPoints { get; set; }
+
+    [Column("avatar_url")]
+    public string? AvatarUrl { get; set; }
 }
