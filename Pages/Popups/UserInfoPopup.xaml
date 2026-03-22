@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="MyDashboard.Pages.UserInfoPopup"
+               CanBeDismissedByTappingOutsideOfPopup="True">
+
+    <Border StrokeThickness="0"
+            StrokeShape="RoundRectangle 20"
+            BackgroundColor="White"
+            Padding="0">
+
+        <VerticalStackLayout WidthRequest="340"
+                             Padding="24"
+                             Spacing="20">
+
+            <Label Text="User info"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#1F1F1F" />
+
+            <VerticalStackLayout Spacing="14">
+
+                <Border Stroke="#E7E7E7"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 14"
+                        BackgroundColor="#F8F8F8"
+                        Padding="14,12">
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Name"
+                               FontSize="13"
+                               TextColor="#6B7280" />
+                        <Label x:Name="UserNameLabel"
+                               FontSize="17"
+                               FontAttributes="Bold"
+                               TextColor="#111827" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Stroke="#E7E7E7"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 14"
+                        BackgroundColor="#F8F8F8"
+                        Padding="14,12">
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Email"
+                               FontSize="13"
+                               TextColor="#6B7280" />
+                        <Label x:Name="UserEmailLabel"
+                               FontSize="16"
+                               TextColor="#111827"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Stroke="#E7E7E7"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 14"
+                        BackgroundColor="#F8F8F8"
+                        Padding="14,12">
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Points"
+                               FontSize="13"
+                               TextColor="#6B7280" />
+                        <Label x:Name="UserPointsLabel"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#4F46E5" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <Button Text="Close"
+                    Clicked="Close_Clicked"
+                    HeightRequest="50"
+                    CornerRadius="14"
+                    BackgroundColor="#5B3FD0"
+                    TextColor="White"
+                    FontAttributes="Bold" />
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyDashboard.Pages.DashBoardPage"
+             BackgroundColor="#F4F7FB">
+
+    <Grid RowDefinitions="Auto,*"
+          ColumnDefinitions="320,*">
+
+        <!-- Top panel -->
+        <Border Grid.Row="0"
+                Grid.ColumnSpan="2"
+                BackgroundColor="White"
+                StrokeThickness="0"
+                Padding="16,12">
+            <HorizontalStackLayout Spacing="12">
+                <Button Text="Account"
+                        Clicked="Account_Clicked"
+                        HeightRequest="50"
+                        CornerRadius="14"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        BackgroundColor="#EEF2FF"
+                        TextColor="#3730A3"/>
+
+                <Button Text="Achievements"
+                        Clicked="Achievements_Clicked"
+                        HeightRequest="50"
+                        CornerRadius="14"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        BackgroundColor="#EEF2FF"
+                        TextColor="#3730A3"/>
+
+                <Button Text="Leader Board"
+                        Clicked="Leaderboard_Clicked"
+                        HeightRequest="50"
+                        CornerRadius="14"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        BackgroundColor="#EEF2FF"
+                        TextColor="#3730A3"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Left panel -->
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                BackgroundColor="White"
+                StrokeThickness="0"
+                Margin="16"
+                Padding="18">
+            <VerticalStackLayout Spacing="14">
+
+                <Button Text="Create a new room"
+                        Clicked="CreateRoom_Clicked"
+                        HeightRequest="54"
+                        CornerRadius="14"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        BackgroundColor="#4F46E5"
+                        TextColor="White"/>
+
+                <Label Text="Join room by key"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#374151"/>
+
+                <Entry x:Name="RoomKeyEntry"
+                       Placeholder="Enter room key"
+                       FontSize="18"
+                       HeightRequest="52"
+                       BackgroundColor="#F9FAFB"
+                       TextColor="#111827"
+                       PlaceholderColor="#9CA3AF"/>
+
+                <Button Text="Join a room"
+                        Clicked="JoinRoom_Clicked"
+                        HeightRequest="54"
+                        CornerRadius="14"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        BackgroundColor="#E0E7FF"
+                        TextColor="#3730A3"/>
+
+                <BoxView HeightRequest="1"
+                         Color="#E5E7EB"
+                         Margin="0,8,0,4"/>
+
+                <Label Text="Your rooms"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#111827"/>
+
+                <ScrollView>
+                    <VerticalStackLayout x:Name="RoomsList"
+                                         Spacing="10"/>
+                </ScrollView>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Main content -->
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              Margin="0,16,16,16"
+              ColumnDefinitions="*,290"
+              RowDefinitions="Auto,*"
+              ColumnSpacing="16"
+              RowSpacing="16">
+
+            <!-- Top panel in main content -->
+            <Border Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="White"
+                    StrokeThickness="0"
+                    Padding="16">
+                <HorizontalStackLayout Spacing="12">
+
+                    <Button Text="Create a task"
+                            Clicked="CreateTask_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#4F46E5"
+                            TextColor="White"/>
+
+                    <Label Text="Room key:"
+                           VerticalOptions="Center"
+                           FontSize="18"
+                           TextColor="#4B5563"/>
+
+                    <Label x:Name="SelectedRoomKeyLabel"
+                           Text="-"
+                           VerticalOptions="Center"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="#111827"/>
+
+                    <Button Text="Copy"
+                            Clicked="CopyRoomKey_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#EEF2FF"
+                            TextColor="#3730A3"/>
+
+                    <Button x:Name="RoomActionButton"
+                            Text="Leave room"
+                            Clicked="RoomActionButton_Clicked"
+                            HeightRequest="50"
+                            CornerRadius="14"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            BackgroundColor="#FEE2E2"
+                            TextColor="#B91C1C"/>
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Task columns -->
+            <Grid Grid.Row="1"
+                  Grid.Column="0"
+                  ColumnDefinitions="*,*,*,*"
+                  ColumnSpacing="14">
+
+                <!-- To do -->
+                <Border Grid.Column="0"
+                        BackgroundColor="White"
+                        Stroke="#E5E7EB"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18"/>
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="To do"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="#111827"/>
+                        <ScrollView>
+                            <VerticalStackLayout x:Name="ToDoTaskList"
+                                                 Spacing="10"/>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- In progress -->
+                <Border Grid.Column="1"
+                        BackgroundColor="White"
+                        Stroke="#E5E7EB"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18"/>
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="In progress"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="#111827"/>
+                        <ScrollView>
+                            <VerticalStackLayout x:Name="InProgressTaskList"
+                                                 Spacing="10"/>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- In review -->
+                <Border Grid.Column="2"
+                        BackgroundColor="White"
+                        Stroke="#E5E7EB"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18"/>
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="In review"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="#111827"/>
+                        <ScrollView>
+                            <VerticalStackLayout x:Name="InReviewTaskList"
+                                                 Spacing="10"/>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Done -->
+                <Border Grid.Column="3"
+                        BackgroundColor="White"
+                        Stroke="#E5E7EB"
+                        StrokeThickness="1"
+                        Padding="14">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="18"/>
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Done"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="#111827"/>
+                        <ScrollView>
+                            <VerticalStackLayout x:Name="DoneTaskList"
+                                                 Spacing="10"/>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+
+            <!-- Members panel -->
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    BackgroundColor="White"
+                    Stroke="#E5E7EB"
+                    StrokeThickness="1"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="18"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Members"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="#111827"/>
+                    <ScrollView>
+                        <VerticalStackLayout x:Name="MemberList"
+                                             Spacing="10"/>
+                    </ScrollView>
+                </VerticalStackLayout>
+            </Border>
+
+        </Grid>
+    </Grid>
+</ContentPage>
