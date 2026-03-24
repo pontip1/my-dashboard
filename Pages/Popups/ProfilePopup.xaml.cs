@@ -6,9 +6,11 @@ namespace MyDashboard.Pages.Popups;
 
 public partial class ProfilePopup : Popup
 {
-    public ProfilePopup()
+    private readonly Func<Task>? _onProfileChanged;
+    public ProfilePopup(Func<Task>? onProfileChanged = null)
     {
         InitializeComponent();
+        _onProfileChanged = onProfileChanged;
         _ = LoadUserData();
     }
 
@@ -110,6 +112,8 @@ public partial class ProfilePopup : Popup
             await profile.Update<Profile>();
 
             AvatarImage.Source = ImageSource.FromUri(new Uri(publicUrl));
+            if (_onProfileChanged != null)
+                await _onProfileChanged();
 
             await Application.Current.MainPage.DisplayAlert("Success", "Photo updated", "OK");
         }
@@ -154,19 +158,14 @@ public partial class ProfilePopup : Popup
                 return;
             }
 
-            var updatedProfile = new Profile
-            {
-                Id = profile.Id,
-                Email = profile.Email,
-                Name = newName,
-                Points = profile.Points,
-                ShopPoints = profile.ShopPoints,
-                AvatarUrl = profile.AvatarUrl
-            };
+            profile.Name = newName;
 
-            await updatedProfile.Update<Profile>();
+            await profile.Update<Profile>();
 
             await LoadUserData();
+
+            if (_onProfileChanged != null)
+                await _onProfileChanged();
 
             await Application.Current.MainPage.DisplayAlert("Success", "Name updated", "OK");
         }

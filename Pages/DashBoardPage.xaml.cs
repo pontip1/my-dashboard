@@ -26,6 +26,17 @@ public partial class DashBoardPage : ContentPage
         InitializeComponent();
     }
 
+    private async Task RefreshProfileRelatedUi()
+    {
+        await LoadMyRooms();
+
+        if (_selectedRoom != null)
+        {
+            await LoadMembers(_selectedRoom);
+            await LoadTasks(_selectedRoom.Id);
+        }
+    }
+
     private async void ThemeToggle_Clicked(object sender, EventArgs e)
     {
         if (!_hasPremiumTheme)
@@ -214,7 +225,10 @@ public partial class DashBoardPage : ContentPage
 
     private async void Account_Clicked(object sender, EventArgs e)
     {
-        await this.ShowPopupAsync(new ProfilePopup());
+        await this.ShowPopupAsync(new ProfilePopup(async () =>
+        {
+            await RefreshProfileRelatedUi();
+        }));
     }
 
     private async void CreateTask_Clicked(object sender, EventArgs e)
